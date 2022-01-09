@@ -8,18 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		EADC731E278AA24900D0A9BA /* ShadowScreenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADC731D278AA24900D0A9BA /* ShadowScreenApp.swift */; };
-		EADC7320278AA24900D0A9BA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADC731F278AA24900D0A9BA /* ContentView.swift */; };
 		EADC7322278AA24B00D0A9BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EADC7321278AA24B00D0A9BA /* Assets.xcassets */; };
 		EADC7325278AA24B00D0A9BA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EADC7324278AA24B00D0A9BA /* Preview Assets.xcassets */; };
+		EADC732D278B118D00D0A9BA /* CaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADC732C278B118D00D0A9BA /* CaptureSession.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		EADC731A278AA24900D0A9BA /* ShadowScreen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShadowScreen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EADC731D278AA24900D0A9BA /* ShadowScreenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowScreenApp.swift; sourceTree = "<group>"; };
-		EADC731F278AA24900D0A9BA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		EADC7321278AA24B00D0A9BA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EADC7324278AA24B00D0A9BA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		EADC7326278AA24B00D0A9BA /* ShadowScreen.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShadowScreen.entitlements; sourceTree = "<group>"; };
+		EADC732C278B118D00D0A9BA /* CaptureSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSession.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +53,7 @@
 			isa = PBXGroup;
 			children = (
 				EADC731D278AA24900D0A9BA /* ShadowScreenApp.swift */,
-				EADC731F278AA24900D0A9BA /* ContentView.swift */,
+				EADC732C278B118D00D0A9BA /* CaptureSession.swift */,
 				EADC7321278AA24B00D0A9BA /* Assets.xcassets */,
 				EADC7326278AA24B00D0A9BA /* ShadowScreen.entitlements */,
 				EADC7323278AA24B00D0A9BA /* Preview Content */,
@@ -139,8 +139,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EADC7320278AA24900D0A9BA /* ContentView.swift in Sources */,
 				EADC731E278AA24900D0A9BA /* ShadowScreenApp.swift in Sources */,
+				EADC732D278B118D00D0A9BA /* CaptureSession.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
