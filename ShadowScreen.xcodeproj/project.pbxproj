@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		EA49AEFB298FF082007F34F1 /* ScreenCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA49AEFA298FF082007F34F1 /* ScreenCapture.swift */; };
 		EA49AEFD298FF597007F34F1 /* SampleBufferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA49AEFC298FF597007F34F1 /* SampleBufferView.swift */; };
+		EA49AF0129901988007F34F1 /* AudioObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA49AF0029901988007F34F1 /* AudioObject.swift */; };
 		EADC731E278AA24900D0A9BA /* ShadowScreenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADC731D278AA24900D0A9BA /* ShadowScreenApp.swift */; };
 		EADC7322278AA24B00D0A9BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EADC7321278AA24B00D0A9BA /* Assets.xcassets */; };
 		EADC7325278AA24B00D0A9BA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EADC7324278AA24B00D0A9BA /* Preview Assets.xcassets */; };
@@ -18,6 +19,7 @@
 /* Begin PBXFileReference section */
 		EA49AEFA298FF082007F34F1 /* ScreenCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCapture.swift; sourceTree = "<group>"; };
 		EA49AEFC298FF597007F34F1 /* SampleBufferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleBufferView.swift; sourceTree = "<group>"; };
+		EA49AF0029901988007F34F1 /* AudioObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioObject.swift; sourceTree = "<group>"; };
 		EADC731A278AA24900D0A9BA /* ShadowScreen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShadowScreen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EADC731D278AA24900D0A9BA /* ShadowScreenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowScreenApp.swift; sourceTree = "<group>"; };
 		EADC7321278AA24B00D0A9BA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 				EADC732C278B118D00D0A9BA /* CaptureSession.swift */,
 				EA49AEFA298FF082007F34F1 /* ScreenCapture.swift */,
 				EA49AEFC298FF597007F34F1 /* SampleBufferView.swift */,
+				EA49AF0029901988007F34F1 /* AudioObject.swift */,
 				EADC7321278AA24B00D0A9BA /* Assets.xcassets */,
 				EADC7326278AA24B00D0A9BA /* ShadowScreen.entitlements */,
 				EADC7323278AA24B00D0A9BA /* Preview Content */,
@@ -145,6 +148,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA49AF0129901988007F34F1 /* AudioObject.swift in Sources */,
 				EA49AEFD298FF597007F34F1 /* SampleBufferView.swift in Sources */,
 				EADC731E278AA24900D0A9BA /* ShadowScreenApp.swift in Sources */,
 				EA49AEFB298FF082007F34F1 /* ScreenCapture.swift in Sources */,

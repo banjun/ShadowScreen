@@ -13,6 +13,8 @@ class CaptureSession: NSObject, ObservableObject, SCStreamOutput, SCStreamDelega
     }
     let sampleBufferDisplayLayer: AVSampleBufferDisplayLayer = .init()
     var latency: Double = 2 // AirPlay delays 2.0 seconds
+    private var audioObjects = AudioObject.collect()
+    private var airplayAudioObject: AudioObject? { audioObjects.first {$0.name == "AirPlay"} } // AudioObject.collect cannot get AirPlay when the AirPlay device is not selected as System Output
     private let sampleHandlerQueue = DispatchQueue(label: "sampleHandlerQueue", qos: .userInteractive)
     private var cancellables: Set<AnyCancellable> = []
 
@@ -36,6 +38,11 @@ class CaptureSession: NSObject, ObservableObject, SCStreamOutput, SCStreamDelega
         }
         stream = SCStream(filter: SCContentFilter(desktopIndependentWindow: window), configuration: c, delegate: self)
         _ = try? stream?.addStreamOutput(self, type: .screen, sampleHandlerQueue: sampleHandlerQueue)
+
+        audioObjects = AudioObject.collect()
+        NSLog("%@", "airplayAudioObject = \(airplayAudioObject), totalLatency = \(airplayAudioObject?.totalLatency)")
+        latency = airplayAudioObject?.totalLatency ?? 2
+
         stream?.startCapture()
     }
 
