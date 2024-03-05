@@ -1,3 +1,4 @@
+#if os(macOS)
 import Foundation
 import AppKit
 import ScreenCaptureKit
@@ -37,3 +38,4 @@ final class ScreenCapture: ObservableObject {
         }
     }
 }
+#endif

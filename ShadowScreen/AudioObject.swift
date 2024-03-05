@@ -1,3 +1,4 @@
+#if os(macOS)
 import Foundation
 import AVKit
 
@@ -61,3 +62,4 @@ struct AudioObject {
         }
     }
 }
+#endif

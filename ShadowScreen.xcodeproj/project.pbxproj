@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		63FED7432B95C2A100C6A7AB /* PeerBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FED7422B95C2A100C6A7AB /* PeerBrowser.swift */; };
+		63FED7452B95C5A400C6A7AB /* MCBrowserViewControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FED7442B95C5A400C6A7AB /* MCBrowserViewControllerView.swift */; };
+		63FED7472B95C65F00C6A7AB /* MultipeerConnectivityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FED7462B95C65F00C6A7AB /* MultipeerConnectivityConstants.swift */; };
+		63FED74A2B95CDA900C6A7AB /* PeerAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FED7492B95CDA900C6A7AB /* PeerAdvertiser.swift */; };
 		EA49AEFB298FF082007F34F1 /* ScreenCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA49AEFA298FF082007F34F1 /* ScreenCapture.swift */; };
 		EA49AEFD298FF597007F34F1 /* SampleBufferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA49AEFC298FF597007F34F1 /* SampleBufferView.swift */; };
 		EA49AF0129901988007F34F1 /* AudioObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA49AF0029901988007F34F1 /* AudioObject.swift */; };
@@ -17,6 +21,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		63FED7422B95C2A100C6A7AB /* PeerBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerBrowser.swift; sourceTree = "<group>"; };
+		63FED7442B95C5A400C6A7AB /* MCBrowserViewControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCBrowserViewControllerView.swift; sourceTree = "<group>"; };
+		63FED7462B95C65F00C6A7AB /* MultipeerConnectivityConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerConnectivityConstants.swift; sourceTree = "<group>"; };
+		63FED7482B95C98300C6A7AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		63FED7492B95CDA900C6A7AB /* PeerAdvertiser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerAdvertiser.swift; sourceTree = "<group>"; };
 		EA49AEFA298FF082007F34F1 /* ScreenCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCapture.swift; sourceTree = "<group>"; };
 		EA49AEFC298FF597007F34F1 /* SampleBufferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleBufferView.swift; sourceTree = "<group>"; };
 		EA49AF0029901988007F34F1 /* AudioObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioObject.swift; sourceTree = "<group>"; };
@@ -58,11 +67,16 @@
 		EADC731C278AA24900D0A9BA /* ShadowScreen */ = {
 			isa = PBXGroup;
 			children = (
+				63FED7482B95C98300C6A7AB /* Info.plist */,
 				EADC731D278AA24900D0A9BA /* ShadowScreenApp.swift */,
 				EADC732C278B118D00D0A9BA /* CaptureSession.swift */,
 				EA49AEFA298FF082007F34F1 /* ScreenCapture.swift */,
 				EA49AEFC298FF597007F34F1 /* SampleBufferView.swift */,
 				EA49AF0029901988007F34F1 /* AudioObject.swift */,
+				63FED7422B95C2A100C6A7AB /* PeerBrowser.swift */,
+				63FED7492B95CDA900C6A7AB /* PeerAdvertiser.swift */,
+				63FED7442B95C5A400C6A7AB /* MCBrowserViewControllerView.swift */,
+				63FED7462B95C65F00C6A7AB /* MultipeerConnectivityConstants.swift */,
 				EADC7321278AA24B00D0A9BA /* Assets.xcassets */,
 				EADC7326278AA24B00D0A9BA /* ShadowScreen.entitlements */,
 				EADC7323278AA24B00D0A9BA /* Preview Content */,
@@ -150,9 +164,13 @@
 			files = (
 				EA49AF0129901988007F34F1 /* AudioObject.swift in Sources */,
 				EA49AEFD298FF597007F34F1 /* SampleBufferView.swift in Sources */,
+				63FED7472B95C65F00C6A7AB /* MultipeerConnectivityConstants.swift in Sources */,
 				EADC731E278AA24900D0A9BA /* ShadowScreenApp.swift in Sources */,
 				EA49AEFB298FF082007F34F1 /* ScreenCapture.swift in Sources */,
+				63FED7452B95C5A400C6A7AB /* MCBrowserViewControllerView.swift in Sources */,
+				63FED7432B95C2A100C6A7AB /* PeerBrowser.swift in Sources */,
 				EADC732D278B118D00D0A9BA /* CaptureSession.swift in Sources */,
+				63FED74A2B95CDA900C6A7AB /* PeerAdvertiser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,11 +302,14 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ShadowScreen/Preview Content\"";
-				DEVELOPMENT_TEAM = FPZK4WRGW7;
-				ENABLE_HARDENED_RUNTIME = YES;
+				DEVELOPMENT_TEAM = QSUH58M627;
+				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShadowScreen/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Browse screen source via MultipeerConnectivity";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -296,8 +317,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.banjun.exp.ShadowScreen;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,7";
+				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
 			name = Debug;
 		};
@@ -311,11 +336,14 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ShadowScreen/Preview Content\"";
-				DEVELOPMENT_TEAM = FPZK4WRGW7;
-				ENABLE_HARDENED_RUNTIME = YES;
+				DEVELOPMENT_TEAM = QSUH58M627;
+				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShadowScreen/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Browse screen source via MultipeerConnectivity";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -323,8 +351,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.banjun.exp.ShadowScreen;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,7";
+				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
 			name = Release;
 		};

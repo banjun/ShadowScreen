@@ -1,7 +1,9 @@
 import Foundation
-import AppKit
 import AVKit
 import SwiftUI
+
+#if canImport(AppKit)
+import AppKit
 
 struct SampleBufferView: NSViewRepresentable {
     var sampleBufferDisplayLayer: AVSampleBufferDisplayLayer?
@@ -39,3 +41,43 @@ struct SampleBufferView: NSViewRepresentable {
         private var observation: NSKeyValueObservation?
     }
 }
+
+#elseif canImport(UIKit)
+import UIKit
+
+struct SampleBufferView: UIViewRepresentable {
+    var sampleBufferDisplayLayer: AVSampleBufferDisplayLayer?
+
+    func updateUIView(_ uiView: UIView, context: Context) {
+        uiView.layer.sublayers?.forEach {$0.removeFromSuperlayer()}
+        if let layer = sampleBufferDisplayLayer {
+            uiView.layer.addSublayer(layer)
+        }
+        context.coordinator.uiView = uiView
+    }
+    func makeUIView(context: Context) -> UIView {
+        let v = UIView()
+        updateUIView(v, context: context)
+        return v
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+
+    class Coordinator {
+        var uiView: UIView? {
+            didSet {
+                if let uiView {
+                    uiView.layer.sublayers?.forEach {$0.frame = uiView.bounds}
+                }
+                observation = uiView?.observe(\.frame) { uiView, _ in
+                    uiView.layer.sublayers?.forEach {$0.frame = uiView.bounds}
+                }
+            }
+        }
+        private var observation: NSKeyValueObservation?
+    }
+}
+
+#endif
