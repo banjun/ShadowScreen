@@ -104,11 +104,14 @@ class CaptureSession: NSObject, ObservableObject, SCStreamOutput, SCStreamDelega
             if error == noErr, let compressionSession {
                 self.compressionSession = compressionSession
 
-                let error1 = VTSessionSetProperty(compressionSession, key: kVTCompressionPropertyKey_ProfileLevel, value: kVTProfileLevel_HEVC_Main_AutoLevel)
-                NSLog("%@", "settings kVTCompressionPropertyKey_ProfileLevel = kVTProfileLevel_HEVC_Main_AutoLevel: error = \(error1)")
+                func setProperty(key: CFString, value: CFTypeRef?) {
+                    let error = VTSessionSetProperty(compressionSession, key: key, value: value)
+                    NSLog("%@", "settings \(key) = \(value): error = \(error)")
+                }
 
-                let error2 = VTSessionSetProperty(compressionSession, key: kVTCompressionPropertyKey_RealTime, value: kCFBooleanTrue)
-                NSLog("%@", "settings kVTCompressionPropertyKey_ProfileLevel = kVTProfileLevel_HEVC_Main_AutoLevel: error = \(error2)")
+                setProperty(key: kVTCompressionPropertyKey_ProfileLevel, value: kVTProfileLevel_HEVC_Main_AutoLevel)
+                setProperty(key: kVTCompressionPropertyKey_RealTime, value: kCFBooleanTrue)
+                setProperty(key: kVTCompressionPropertyKey_MaxKeyFrameIntervalDuration, value: 1 as CFNumber)
             }
             return
         }

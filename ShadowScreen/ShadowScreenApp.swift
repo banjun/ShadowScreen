@@ -91,6 +91,13 @@ extension CMSampleBuffer {
         var timing: CMSampleTimingInfo = CMSampleTimingInfo(duration: CMTime(seconds: 0.1, preferredTimescale: 600), presentationTimeStamp: CMTime(seconds: now - firstFrameTimestamp, preferredTimescale: 600), decodeTimeStamp: .invalid)
         var decoded: CMSampleBuffer?
         CMSampleBufferCreateReady(allocator: nil, dataBuffer: dataBuffer, formatDescription: formatDescription, sampleCount: 1, sampleTimingEntryCount: 1, sampleTimingArray: &timing, sampleSizeEntryCount: 1, sampleSizeArray: [1], sampleBufferOut: &decoded)
+
+        if let decoded {
+            let attachments: CFArray = CMSampleBufferGetSampleAttachmentsArray(decoded, createIfNecessary: true)!
+            let firstAttachments = unsafeBitCast(CFArrayGetValueAtIndex(attachments, 0), to: CFMutableDictionary.self)
+            CFDictionarySetValue(firstAttachments, Unmanaged.passUnretained(kCMSampleAttachmentKey_DisplayImmediately).toOpaque(), Unmanaged.passUnretained(kCFBooleanTrue).toOpaque())
+        }
+
         return decoded
     }
 }
@@ -217,7 +224,7 @@ struct ShadowScreenApp: App {
                 firstFrameTimestamp = NSDate().timeIntervalSince1970
             }
             let sampleBuffer = CMSampleBuffer.decode(hevc: hevc, firstFrameTimestamp: firstFrameTimestamp!)
-            NSLog("%@", "decoded = \(sampleBuffer)")
+            print("decoded = \(sampleBuffer)")
             guard let sampleBuffer else { return }
             receive(sampleBuffer: sampleBuffer)
 
