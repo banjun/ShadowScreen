@@ -43,7 +43,10 @@ struct ShadowScreenApp: App {
                 guard let runtimePeer else { return }
                 do {
                     // NSLog("%@", "🍓 sending \(imageBufferData.count) bytes to the peer")
-                    try runtimePeer.session.send(imageBufferData, toPeers: [runtimePeer.peerID], with: .unreliable)
+                    // unreliable transport can cause out of order delivery.
+                    // HEVC depends on ordered frames and results in thus gray + diff screen on simulator or freeze on device
+                    // TODO: use a stream transport
+                    try runtimePeer.session.send(imageBufferData, toPeers: [runtimePeer.peerID], with: .reliable)
                 } catch {
                     NSLog("%@", "🍓 error during runtimePeer.session.send: \(String(describing: error))")
                 }
@@ -102,7 +105,6 @@ struct ShadowScreenApp: App {
         var sampleBufferDisplayLayer: AVSampleBufferDisplayLayer? = nil
         let peerAdvertiser = PeerAdvertiser() { _, _ in true }
         private var cancellables: Set<AnyCancellable> = []
-        private var firstFrameTimestamp: Double?
 
         init() {
             Task {
@@ -124,14 +126,19 @@ struct ShadowScreenApp: App {
             sampleBufferDisplayLayer = AVSampleBufferDisplayLayer()
         }
 
+        private var previousDummySequenceNumber: UInt32 = 0
         func receive(imageBufferData: Data) {
             guard let hevc = HEVC(data: imageBufferData) else { return }
-            if firstFrameTimestamp == nil {
-                firstFrameTimestamp = NSDate().timeIntervalSince1970
+            if previousDummySequenceNumber + 1 != hevc.dummySequenceNumber {
+                NSLog("%@", "frame drop detected: \(previousDummySequenceNumber) -> \(hevc.dummySequenceNumber)")
             }
-            let sampleBuffer = CMSampleBuffer.decode(hevc: hevc, firstFrameTimestamp: firstFrameTimestamp!)
+            previousDummySequenceNumber = hevc.dummySequenceNumber
+            let sampleBuffer = CMSampleBuffer.decode(hevc: hevc)
             // print("decoded = \(sampleBuffer)")
-            guard let sampleBuffer else { return }
+            guard let sampleBuffer else {
+                NSLog("%@", "decode failed for \(imageBufferData.count) bytes")
+                return
+            }
             receive(sampleBuffer: sampleBuffer)
         }
         func receive(sampleBuffer: CMSampleBuffer) {
@@ -143,7 +150,6 @@ struct ShadowScreenApp: App {
 
         func disconnect() {
             sampleBufferDisplayLayer = nil
-            firstFrameTimestamp = nil
         }
     }
 
