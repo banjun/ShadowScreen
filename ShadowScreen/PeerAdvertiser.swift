@@ -105,6 +105,7 @@ final actor PeerAdvertiser {
 
         func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
             NSLog("%@", "🍓 \(#function) stream = \(stream), streamName = \(streamName), peerID = \(peerID)")
+            Task { await advertiser?.session(session, didReceive: stream, withName: streamName, fromPeer: peerID) }
         }
 
         func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
@@ -135,7 +136,14 @@ final actor PeerAdvertiser {
     }
 
     private func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        Task.detached { @MainActor in self.receivedDataSubject.send(data) }
+//        Task.detached { @MainActor in self.receivedDataSubject.send(data) }
+    }
+
+    private func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) async {
+        stream.open()
+        for await data in ATOM.parse(stream: stream) {
+            Task.detached { @MainActor in self.receivedDataSubject.send(data) }
+        }
     }
 }
 

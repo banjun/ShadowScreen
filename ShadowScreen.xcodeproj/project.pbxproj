@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		63D898A32B98499F006CAA78 /* HEVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D898A22B98499F006CAA78 /* HEVC.swift */; };
 		63D898A52B984A12006CAA78 /* 420v.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D898A42B984A12006CAA78 /* 420v.swift */; };
+		63D898A72B988C3E006CAA78 /* ATOM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D898A62B988C3E006CAA78 /* ATOM.swift */; };
 		63FED7432B95C2A100C6A7AB /* PeerBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FED7422B95C2A100C6A7AB /* PeerBrowser.swift */; };
 		63FED7452B95C5A400C6A7AB /* MCBrowserViewControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FED7442B95C5A400C6A7AB /* MCBrowserViewControllerView.swift */; };
 		63FED7472B95C65F00C6A7AB /* MultipeerConnectivityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FED7462B95C65F00C6A7AB /* MultipeerConnectivityConstants.swift */; };
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		63D898A22B98499F006CAA78 /* HEVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HEVC.swift; sourceTree = "<group>"; };
 		63D898A42B984A12006CAA78 /* 420v.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 420v.swift; sourceTree = "<group>"; };
+		63D898A62B988C3E006CAA78 /* ATOM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ATOM.swift; sourceTree = "<group>"; };
 		63FED7422B95C2A100C6A7AB /* PeerBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerBrowser.swift; sourceTree = "<group>"; };
 		63FED7442B95C5A400C6A7AB /* MCBrowserViewControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCBrowserViewControllerView.swift; sourceTree = "<group>"; };
 		63FED7462B95C65F00C6A7AB /* MultipeerConnectivityConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerConnectivityConstants.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				63FED7462B95C65F00C6A7AB /* MultipeerConnectivityConstants.swift */,
 				63D898A22B98499F006CAA78 /* HEVC.swift */,
 				63D898A42B984A12006CAA78 /* 420v.swift */,
+				63D898A62B988C3E006CAA78 /* ATOM.swift */,
 				EADC7321278AA24B00D0A9BA /* Assets.xcassets */,
 				EADC7326278AA24B00D0A9BA /* ShadowScreen.entitlements */,
 				EADC7323278AA24B00D0A9BA /* Preview Content */,
@@ -178,6 +181,7 @@
 				63FED7452B95C5A400C6A7AB /* MCBrowserViewControllerView.swift in Sources */,
 				63FED7432B95C2A100C6A7AB /* PeerBrowser.swift in Sources */,
 				EADC732D278B118D00D0A9BA /* CaptureSession.swift in Sources */,
+				63D898A72B988C3E006CAA78 /* ATOM.swift in Sources */,
 				63FED74A2B95CDA900C6A7AB /* PeerAdvertiser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -3,9 +3,9 @@ import MultipeerConnectivity
 import SwiftUI
 
 struct RuntimePeer {
-    /// route for sending dylib
+    /// route
     var session: MCSession
-    /// the destination peerID that will load the dylib on runtime
+    /// the destination peerID
     var peerID: MCPeerID
 }
 

@@ -16,7 +16,14 @@ struct ShadowScreenApp: App {
         private var cancellables: Set<AnyCancellable> = []
         private var captureSessionCancellables: Set<AnyCancellable> = []
         let peerBrowser = PeerBrowser()
-        private(set) var runtimePeer: RuntimePeer?
+        private(set) var runtimePeer: RuntimePeer? {
+            didSet {
+                runtimePeerOutStreamActor = runtimePeer.flatMap { try? $0.session.startStream(withName: "HEVC", toPeer: $0.peerID) }.map {
+                    OutputStreamActor(stream: $0)
+                }
+            }
+        }
+        private var runtimePeerOutStreamActor: OutputStreamActor?
 
         init() {
             screenCapture.$displays.compactMap {$0.last}.receive(on: DispatchQueue.main).sink { [weak self] in
@@ -37,20 +44,26 @@ struct ShadowScreenApp: App {
 
         func adoptCaptureSessionToRuntimePeer(captureSession: CaptureSession) {
             captureSession.$latestImageBufferData.compactMap {$0}
-//                .throttle(for: 1, scheduler: DispatchQueue.main, latest: true)
+            //                .throttle(for: 1, scheduler: DispatchQueue.main, latest: true)
                 .sink { [weak self] imageBufferData in
-                guard let self else { return }
-                guard let runtimePeer else { return }
-                do {
+                    guard let self else { return }
+                    guard let runtimePeer else { return }
                     // NSLog("%@", "🍓 sending \(imageBufferData.count) bytes to the peer")
                     // unreliable transport can cause out of order delivery.
                     // HEVC depends on ordered frames and results in thus gray + diff screen on simulator or freeze on device
                     // TODO: use a stream transport
-                    try runtimePeer.session.send(imageBufferData, toPeers: [runtimePeer.peerID], with: .reliable)
-                } catch {
-                    NSLog("%@", "🍓 error during runtimePeer.session.send: \(String(describing: error))")
-                }
-            }.store(in: &captureSessionCancellables)
+                    if let runtimePeerOutStreamActor {
+                        Task {
+                            await runtimePeerOutStreamActor.enqueue(imageBufferData)
+                        }
+                    } else {
+                        do {
+                            try runtimePeer.session.send(imageBufferData, toPeers: [runtimePeer.peerID], with: .reliable)
+                        } catch {
+                            NSLog("%@", "🍓 error during runtimePeer.session.send: \(String(describing: error))")
+                        }
+                    }
+                }.store(in: &captureSessionCancellables)
         }
 
         func detachCaptureSessionFromRuntimePeer(captureSession: CaptureSession) {
