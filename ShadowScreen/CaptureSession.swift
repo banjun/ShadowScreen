@@ -139,26 +139,7 @@ class CaptureSession: NSObject, ObservableObject, SCStreamOutput, SCStreamDelega
 
         VTCompressionSessionEncodeFrame(compressionSession, imageBuffer: imageBuffer, presentationTimeStamp: sampleBuffer.presentationTimeStamp, duration: sampleBuffer.duration, frameProperties: nil, infoFlagsOut: nil) { error, info, sampleBuffer in
             guard error == noErr, let sampleBuffer else { return }
-
-            guard let formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer) else { return }
-            func parameterSet(at index: Int) -> Data? {
-                var parameterSetPointer: UnsafePointer<UInt8>?
-                var parameterSetSize: Int = 0
-                var parameterSetCount: Int = 0
-                var nalUnitHeaderLength: Int32 = 0
-                CMVideoFormatDescriptionGetHEVCParameterSetAtIndex(formatDescription, parameterSetIndex: index, parameterSetPointerOut: &parameterSetPointer, parameterSetSizeOut: &parameterSetSize, parameterSetCountOut: &parameterSetCount, nalUnitHeaderLengthOut: &nalUnitHeaderLength)
-                return Data(buffer: UnsafeBufferPointer(start: parameterSetPointer, count: parameterSetSize))
-           }
-            guard let videoParameterSet = parameterSet(at: 0) else { return }
-            guard let sequenceParameterSet = parameterSet(at: 1) else { return }
-            guard let pictureParameterSet = parameterSet(at: 2) else { return }
-            guard let data = try? sampleBuffer.dataBuffer?.dataBytes() else { return }
-
-//            let attachmentsArray = CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, createIfNecessary: false) as Array?
-//            let dependsOnOthers = attachmentsArray?.compactMap {$0 as? [String: Any]}.map {$0?["DependsOnOthers"] as? Bool}
-//            NSLog("%@", "DependsOnOthers = \(dependsOnOthers)")
-//            NSLog("%@", "sampleBuffer.numSamples = \(sampleBuffer.numSamples)")
-            let hevc = HEVC(videoParameterSetSize: UInt32(videoParameterSet.count), videoParameterSet: videoParameterSet, sequenceParameterSetSize: UInt32(sequenceParameterSet.count), sequenceParameterSet: sequenceParameterSet, pictureParameterSetSize: UInt32(pictureParameterSet.count), pictureParameterSet: pictureParameterSet, data: data)
+            guard let hevc = HEVC(encodedFrameSampleBuffer: sampleBuffer) else { return }
             Task.detached { @MainActor in
                 self.latestImageBufferData = Data(hevc: hevc)
 
@@ -168,48 +149,12 @@ class CaptureSession: NSObject, ObservableObject, SCStreamOutput, SCStreamDelega
                 self.sampleBufferDisplayLayer.enqueue(CMSampleBuffer.decode(hevc: hevc, firstFrameTimestamp: self.firstFrameTimestamp)!)
             }
         }
-        return
 
-//        if let imageBuffer = .some(CMSampleBufferGetImageBuffer(sampleBuffer)),
-//           CVPixelBufferLockBaseAddress(imageBuffer, .readOnly) == kCVReturnSuccess,
-//           let base = CVPixelBufferGetBaseAddress(imageBuffer) {
-//            let size = CVPixelBufferGetDataSize(imageBuffer)
-//            let buffer = UnsafeBufferPointer(start: base.assumingMemoryBound(to: UInt8.self), count: size)
-//            let data = Data(buffer: buffer)
-//            CVPixelBufferUnlockBaseAddress(imageBuffer, .readOnly)
-//            Task.detached { @MainActor in
-//                self.latestImageBufferData = data
-//
-//
-//                let now = Date().timeIntervalSince1970
-//                if self.firstFrameTimestamp == 0 {
-//                    self.firstFrameTimestamp = now
-//                }
-//
-//                var imageBuffer2: CVImageBuffer?
-//                var planeBaseAddresses: [UnsafeMutableRawPointer?] = [base, UnsafeMutableRawPointer(mutating: base.assumingMemoryBound(to: UInt8.self).advanced(by: 1920 * 1080 + 7168))]
-//                var planeWidths = [1920, 960]
-//                var planeHeights = [1080, 540]
-//                var planeBytesPerRow = [1920, 1920]
-//
-//                CVPixelBufferCreateWithPlanarBytes(kCFAllocatorDefault, 1920, 1080, kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange, base, size, 2, &planeBaseAddresses, &planeWidths, &planeHeights, &planeBytesPerRow, nil, nil, nil, &imageBuffer2)
-//                //(kCFAllocatorDefault, 1920, 1080, kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange, base, 1920, nil, nil, nil, &imageBuffer2)
-//
-//                let timing = CMSampleTimingInfo(duration: .init(seconds: 1, preferredTimescale: 600), presentationTimeStamp: .init(seconds: now - self.firstFrameTimestamp, preferredTimescale: 600), decodeTimeStamp: .invalid)
-//                if let imageBuffer2 {
-//                    let sampleBuffer = try? CMSampleBuffer(imageBuffer: imageBuffer2, formatDescription: try! CMFormatDescription(imageBuffer: imageBuffer2), sampleTiming: timing)
-//                    if let sampleBuffer {
-//                        self.sampleBufferDisplayLayer.enqueue(sampleBuffer)
-//                    }
-//                }
-            }
-//        }
-//
 //        sampleHandlerQueue.asyncAfter(deadline: .now() + latency) { [weak self] in
 //            guard let self else { return }
 //            self.sampleBufferDisplayLayer.enqueue(sampleBuffer)
 //        }
-//    }
+    }
 
     func stream(_ stream: SCStream, didStopWithError error: Error) {
         NSLog("%@", "\(#function), didStopWithError = \(error)")

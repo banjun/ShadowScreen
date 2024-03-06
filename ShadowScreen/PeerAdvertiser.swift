@@ -99,7 +99,7 @@ final actor PeerAdvertiser {
         }
 
         func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-            NSLog("%@", "🍓 \(#function) data = \(data.count) bytes, peerID = \(peerID)")
+            // NSLog("%@", "🍓 \(#function) data = \(data.count) bytes, peerID = \(peerID)")
             Task { await advertiser?.session(session, didReceive: data, fromPeer: peerID) }
         }
 
