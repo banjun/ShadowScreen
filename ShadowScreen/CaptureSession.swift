@@ -27,6 +27,14 @@ class CaptureSession: NSObject, ObservableObject, SCStreamOutput, SCStreamDelega
     }
 
     func startRunning(window: SCWindow) {
+        startRunning(filter: SCContentFilter(desktopIndependentWindow: window))
+    }
+
+    func startRunning(display: SCDisplay) {
+        startRunning(filter: SCContentFilter(display: display, excludingWindows: []))
+    }
+
+    private func startRunning(filter: SCContentFilter) {
         let c = SCStreamConfiguration()
         c.minimumFrameInterval = .init(seconds: 1 / 60, preferredTimescale: 10000) // low fps such as 1 / 30 drops frames
         c.queueDepth = 480 // low value or high value cause frame drops
@@ -39,7 +47,7 @@ class CaptureSession: NSObject, ObservableObject, SCStreamOutput, SCStreamDelega
         if #available(macOS 13.0, *) {
             c.capturesAudio = false
         }
-        stream = SCStream(filter: SCContentFilter(desktopIndependentWindow: window), configuration: c, delegate: self)
+        stream = SCStream(filter: filter, configuration: c, delegate: self)
         _ = try? stream?.addStreamOutput(self, type: .screen, sampleHandlerQueue: sampleHandlerQueue)
 
         audioObjects = AudioObject.collect()

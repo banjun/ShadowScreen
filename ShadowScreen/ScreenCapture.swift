@@ -5,7 +5,7 @@ import ScreenCaptureKit
 
 final class ScreenCapture: ObservableObject {
     @Published private(set) var windows: [Window] = []
-    @Published private(set) var displays: [SCDisplay] = []
+    @Published private(set) var displays: [Display] = []
     private let picker = SCContentSharingPicker.shared
     private let pickerObserver = PickerObserver()
 
@@ -13,6 +13,10 @@ final class ScreenCapture: ObservableObject {
         var scWindow: SCWindow
         var scRunningApplication: SCRunningApplication
         var nsRunningApplication: NSRunningApplication
+    }
+
+    struct Display: Equatable {
+        var scDisplay: SCDisplay
     }
 
     init() {
@@ -39,7 +43,7 @@ final class ScreenCapture: ObservableObject {
                 case .orderedSame: return a.scWindow.title ?? "" < b.scWindow.title ?? ""
                 }
             }
-            self.displays = content?.displays ?? []
+            self.displays = (content?.displays ?? []).map {.init(scDisplay: $0)}
         }
     }
 }

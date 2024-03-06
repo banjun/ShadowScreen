@@ -11,6 +11,7 @@ struct ShadowScreenApp: App {
 
     class State: ObservableObject {
         @Published private(set) var window: ScreenCapture.Window?
+        @Published private(set) var display: ScreenCapture.Display?
         private let screenCapture: ScreenCapture = .init()
         private var cancellables: Set<AnyCancellable> = []
         private var captureSessionCancellables: Set<AnyCancellable> = []
@@ -18,8 +19,8 @@ struct ShadowScreenApp: App {
         private(set) var runtimePeer: RuntimePeer?
 
         init() {
-            screenCapture.$windows.compactMap {$0.first {$0.scRunningApplication.bundleIdentifier == "developer.apple.wwdc-Release"}}.receive(on: DispatchQueue.main).sink { [weak self] window in
-                self?.window = window
+            screenCapture.$displays.compactMap {$0.last}.receive(on: DispatchQueue.main).sink { [weak self] in
+                self?.display = $0
             }.store(in: &cancellables)
 
             Task {
@@ -67,6 +68,11 @@ struct ShadowScreenApp: App {
         }.onChange(of: appState.window) { _ in
             if let window = appState.window {
                 captureSession.startRunning(window: window.scWindow)
+                appState.adoptCaptureSessionToRuntimePeer(captureSession: captureSession)
+            }
+        }.onChange(of: appState.display) { _ in
+            if let display = appState.display {
+                captureSession.startRunning(display: display.scDisplay)
                 appState.adoptCaptureSessionToRuntimePeer(captureSession: captureSession)
             }
         }
