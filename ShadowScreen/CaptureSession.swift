@@ -47,11 +47,30 @@ class CaptureSession: NSObject, ObservableObject, SCStreamOutput, SCStreamDelega
         latency = airplayAudioObject?.totalLatency ?? 2
 
         stream?.startCapture()
+
+        // enablePresenterOverlay()
     }
+    private var avCaptureSession: AVCaptureSession?
 
     func stopRunning() {
         stream = nil
         compressionSession = nil
+        avCaptureSession = nil
+    }
+
+    private func enablePresenterOverlay() {
+        if #available(macOS 13, *),
+           let camera = AVCaptureDevice.default(for: .video),
+           let cameraInput = try? AVCaptureDeviceInput(device: camera) {
+            let session = AVCaptureSession()
+            session.addInput(cameraInput)
+            let output = AVCaptureVideoDataOutput()
+            session.addOutput(output)
+            session.startRunning()
+            self.avCaptureSession = session
+        } else {
+            self.avCaptureSession = nil
+        }
     }
 
     private var fpsTimer: Date = .init()

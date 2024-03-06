@@ -307,6 +307,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShadowScreen/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Presenter Overlay";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Browse screen source via MultipeerConnectivity";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -342,6 +343,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShadowScreen/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Presenter Overlay";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Browse screen source via MultipeerConnectivity";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
