@@ -6,6 +6,8 @@ import ScreenCaptureKit
 final class ScreenCapture: ObservableObject {
     @Published private(set) var windows: [Window] = []
     @Published private(set) var displays: [SCDisplay] = []
+    private let picker = SCContentSharingPicker.shared
+    private let pickerObserver = PickerObserver()
 
     struct Window: Equatable {
         var scWindow: SCWindow
@@ -15,6 +17,9 @@ final class ScreenCapture: ObservableObject {
 
     init() {
         reload()
+
+        picker.add(pickerObserver)
+        picker.isActive = true
     }
 
     func reload() {
@@ -38,4 +43,18 @@ final class ScreenCapture: ObservableObject {
         }
     }
 }
+
+extension ScreenCapture {
+    class PickerObserver: NSObject, SCContentSharingPickerObserver {
+        func contentSharingPicker(_ picker: SCContentSharingPicker, didCancelFor stream: SCStream?) {
+        }
+        
+        func contentSharingPicker(_ picker: SCContentSharingPicker, didUpdateWith filter: SCContentFilter, for stream: SCStream?) {
+        }
+        
+        func contentSharingPickerStartDidFailWithError(_ error: any Error) {
+        }
+    }
+}
 #endif
+
