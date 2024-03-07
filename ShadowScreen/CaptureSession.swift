@@ -31,7 +31,7 @@ class CaptureSession: NSObject, ObservableObject, SCStreamOutput, SCStreamDelega
                      captureFPS: captureFPS)
     }
 
-    func startRunning(display: SCDisplay, captureFPS: Int = 30) {
+    func startRunning(display: SCDisplay, captureFPS: Int = 15) {
         startRunning(filter: SCContentFilter(display: display, excludingWindows: []),
                      captureFPS: captureFPS,
                      width: display.width,
@@ -41,13 +41,15 @@ class CaptureSession: NSObject, ObservableObject, SCStreamOutput, SCStreamDelega
     private func startRunning(filter: SCContentFilter, captureFPS: Int, width: Int? = nil, height: Int? = nil) {
         let c = SCStreamConfiguration()
         c.minimumFrameInterval = .init(seconds: 1 / .init(captureFPS), preferredTimescale: 10000) // low fps such as 1 / 30 drops frames
-        c.queueDepth = 5 // 480 // low value or high value cause frame drops
-        if let width { c.width = Int(Float(width) )} // * filter.pointPixelScale) }
-        if let height { c.height = Int(Float(height) )} // * filter.pointPixelScale) }
+        c.queueDepth = 8 // 480 // low value or high value cause frame drops
+        // on M1 Pro, capable for 1.5x 15 fps or 1x 30fps for 2560x1440 display
+        if let width { c.width = Int(Float(width) * min(filter.pointPixelScale, 1.5)) }
+        if let height { c.height = Int(Float(height)  * min(filter.pointPixelScale, 1.5)) }
 //        c.pixelFormat = "420f".utf16.reduce(0) {$0 << 8 + FourCharCode($1)}
-        c.colorSpaceName = CGColorSpace.displayP3 // default value converts to less colors...
+//        c.colorSpaceName = CGColorSpace.displayP3 // default value converts to less colors...
+        c.captureResolution = .nominal
 
-        c.scalesToFit = true
+        c.scalesToFit = false
         if #available(macOS 13.0, *) {
             c.capturesAudio = false
         }
