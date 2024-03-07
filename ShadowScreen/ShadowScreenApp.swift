@@ -171,9 +171,15 @@ struct ShadowScreenApp: App {
         WindowGroup {
             if let layer = model.sampleBufferDisplayLayer {
                 SampleBufferView(sampleBufferDisplayLayer: layer)
+                    .ornament(attachmentAnchor: .scene(.topLeading)) {
+                        Button("Kill") { exit(1) }
+                    }
             } else {
-                Text("sampleBufferDisplayLayer = nil")
+                Text("Connect from the companion Mac app")
                     .font(.largeTitle)
+                    .padding()
+                Text(model.peerAdvertiser.displayName)
+                    .font(.title)
                     .padding()
             }
         }

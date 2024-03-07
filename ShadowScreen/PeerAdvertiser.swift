@@ -7,6 +7,7 @@ final actor PeerAdvertiser {
     func setShouldConnectToBuilder(_ shouldConnectToBuilder: @escaping (String, String) async -> Bool) { self.shouldConnectToBuilder = shouldConnectToBuilder }
 
     private let peerID: MCPeerID
+    nonisolated var displayName: String { peerID.displayName }
     private let advertiser: MCNearbyServiceAdvertiser
     private var session: MCSession? {
         didSet {
