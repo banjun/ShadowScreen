@@ -140,9 +140,9 @@ final actor PeerAdvertiser {
     }
 
     private func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) async {
-        stream.open()
         for await data in ATOM.parse(stream: stream) {
-            Task.detached { @MainActor in self.receivedDataSubject.send(data) }
+            // NSLog("%@", "for await seq = \(HEVC(data: data)?.dummySequenceNumber ?? 0) bytes")
+            receivedDataSubject.send(data)
         }
     }
 }

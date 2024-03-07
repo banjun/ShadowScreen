@@ -126,6 +126,7 @@ struct ShadowScreenApp: App {
                 await peerAdvertiser.receivedData
 //                    .throttle(for: 1, scheduler: DispatchQueue.main, latest: true)
                     .sink { [weak self] imageBufferData in
+                        // NSLog("%@", "sink seq = \(HEVC(data: imageBufferData)?.dummySequenceNumber ?? 0) bytes")
                         self?.receive(imageBufferData: imageBufferData)
                     }.store(in: &cancellables)
             }

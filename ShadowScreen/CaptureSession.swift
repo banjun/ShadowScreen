@@ -40,10 +40,10 @@ class CaptureSession: NSObject, ObservableObject, SCStreamOutput, SCStreamDelega
 
     private func startRunning(filter: SCContentFilter, captureFPS: Int, width: Int? = nil, height: Int? = nil) {
         let c = SCStreamConfiguration()
-        c.minimumFrameInterval = .init(seconds: 1 / 30, preferredTimescale: 10000) // low fps such as 1 / 30 drops frames
+        c.minimumFrameInterval = .init(seconds: 1 / .init(captureFPS), preferredTimescale: 10000) // low fps such as 1 / 30 drops frames
         c.queueDepth = 5 // 480 // low value or high value cause frame drops
         if let width { c.width = Int(Float(width) )} // * filter.pointPixelScale) }
-    if let height { c.height = Int(Float(height) )} // * filter.pointPixelScale) }
+        if let height { c.height = Int(Float(height) )} // * filter.pointPixelScale) }
 //        c.pixelFormat = "420f".utf16.reduce(0) {$0 << 8 + FourCharCode($1)}
         c.colorSpaceName = CGColorSpace.displayP3 // default value converts to less colors...
 
