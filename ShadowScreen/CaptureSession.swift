@@ -151,10 +151,11 @@ class CaptureSession: NSObject, ObservableObject, SCStreamOutput, SCStreamDelega
 //                    • kVTCompressionPropertyKey_PrioritizeEncodingSpeedOverQuality: kCFBooleanTrue
                 setProperty(key: kVTCompressionPropertyKey_ProfileLevel, value: kVTProfileLevel_HEVC_Main_AutoLevel)
                 setProperty(key: kVTCompressionPropertyKey_RealTime, value: kCFBooleanTrue)
-                setProperty(key: kVTCompressionPropertyKey_ExpectedFrameRate, value: 30 as CFNumber)
+                setProperty(key: kVTCompressionPropertyKey_ExpectedFrameRate, value: 15 as CFNumber)
                 setProperty(key: kVTCompressionPropertyKey_PrioritizeEncodingSpeedOverQuality, value: kCFBooleanTrue) // error = -12900
 
                 setProperty(key: kVTCompressionPropertyKey_MaxKeyFrameIntervalDuration, value: 5 as CFNumber)
+                setProperty(key: kVTCompressionPropertyKey_AverageBitRate, value: 1_000_000 as CFNumber)
             }
             return
         }

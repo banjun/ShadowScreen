@@ -49,6 +49,7 @@ struct SampleBufferView: UIViewRepresentable {
     var sampleBufferDisplayLayer: AVSampleBufferDisplayLayer?
 
     func updateUIView(_ uiView: UIView, context: Context) {
+        // guard uiView.layer.sublayers != ([sampleBufferDisplayLayer].compactMap {$0}) else { return }
         uiView.layer.sublayers?.forEach {$0.removeFromSuperlayer()}
         if let layer = sampleBufferDisplayLayer {
             uiView.layer.addSublayer(layer)

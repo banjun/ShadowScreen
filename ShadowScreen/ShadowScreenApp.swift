@@ -118,6 +118,7 @@ struct ShadowScreenApp: App {
         var sampleBufferDisplayLayer: AVSampleBufferDisplayLayer? = nil
         let peerAdvertiser = PeerAdvertiser() { _, _ in true }
         private var cancellables: Set<AnyCancellable> = []
+        private(set) var videoSize: CGSize?
 
         init() {
             Task {
@@ -160,6 +161,11 @@ struct ShadowScreenApp: App {
                 connect()
             }
             sampleBufferDisplayLayer!.enqueue(sampleBuffer)
+
+            if let formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer) {
+                let d = CMVideoFormatDescriptionGetDimensions(formatDescription)
+                videoSize = CGSize(width: Int(d.width), height: Int(d.height))
+            }
         }
 
         func disconnect() {
@@ -170,12 +176,15 @@ struct ShadowScreenApp: App {
     var body: some Scene {
         WindowGroup {
             if let layer = model.sampleBufferDisplayLayer {
-                SampleBufferView(sampleBufferDisplayLayer: layer)
-                    .ornament(attachmentAnchor: .scene(.topLeading),
-                              contentAlignment: .bottomTrailing) {
-                        Button("Kill") { exit(1) }
-                            .offset(z: -30)
-                    }
+                WindowSceneReader { windowScene, window in
+                    SampleBufferView(sampleBufferDisplayLayer: layer)
+                        .ornament(attachmentAnchor: .scene(.topLeading), contentAlignment: .bottomTrailing) {
+                            Button("Kill") { exit(1) }
+                                .offset(z: -30)
+                        }
+                        .onChange(of: window) { updateWindowAspectRatio(windowScene: windowScene) }
+                        .onChange(of: model.videoSize) { updateWindowAspectRatio(windowScene: windowScene) }
+                }
             } else {
                 Text("Connect from the companion Mac app")
                     .font(.largeTitle)
@@ -185,6 +194,18 @@ struct ShadowScreenApp: App {
                     .padding()
             }
         }
+    }
+
+    private func updateWindowAspectRatio(windowScene: () -> UIWindowScene?) {
+        guard let windowScene = windowScene(), let videoSize = model.videoSize else { return }
+        // .uniform fixes aspect ratio to the current window size.
+        // for example, set to 3840x2160 may fail due to large height for the space.
+        // in the case above, .uniform fixes aspect to the failed result size.
+        // as a workaround, scale down prior to set window size
+        let height = min(videoSize.height, 1080)
+        let width = videoSize.width * height / videoSize.height
+        windowScene.requestGeometryUpdate(.Vision(size: .init(width: width, height: height), resizingRestrictions: .uniform))
+        NSLog("%@", "requestGeometryUpdate, window scene = \(windowScene), size = \(videoSize)")
     }
 }
 #endif

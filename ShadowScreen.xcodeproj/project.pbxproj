@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		634436C42BA062430097BFB9 /* WindowSceneReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634436C32BA062430097BFB9 /* WindowSceneReader.swift */; };
 		63D898A32B98499F006CAA78 /* HEVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D898A22B98499F006CAA78 /* HEVC.swift */; };
 		63D898A52B984A12006CAA78 /* 420v.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D898A42B984A12006CAA78 /* 420v.swift */; };
 		63D898A72B988C3E006CAA78 /* ATOM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D898A62B988C3E006CAA78 /* ATOM.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		634436C32BA062430097BFB9 /* WindowSceneReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowSceneReader.swift; sourceTree = "<group>"; };
 		63D898A22B98499F006CAA78 /* HEVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HEVC.swift; sourceTree = "<group>"; };
 		63D898A42B984A12006CAA78 /* 420v.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 420v.swift; sourceTree = "<group>"; };
 		63D898A62B988C3E006CAA78 /* ATOM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ATOM.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				63D898A22B98499F006CAA78 /* HEVC.swift */,
 				63D898A42B984A12006CAA78 /* 420v.swift */,
 				63D898A62B988C3E006CAA78 /* ATOM.swift */,
+				634436C32BA062430097BFB9 /* WindowSceneReader.swift */,
 				EADC7321278AA24B00D0A9BA /* Assets.xcassets */,
 				EADC7326278AA24B00D0A9BA /* ShadowScreen.entitlements */,
 				EADC7323278AA24B00D0A9BA /* Preview Content */,
@@ -173,6 +176,7 @@
 			files = (
 				EA49AF0129901988007F34F1 /* AudioObject.swift in Sources */,
 				EA49AEFD298FF597007F34F1 /* SampleBufferView.swift in Sources */,
+				634436C42BA062430097BFB9 /* WindowSceneReader.swift in Sources */,
 				63FED7472B95C65F00C6A7AB /* MultipeerConnectivityConstants.swift in Sources */,
 				EADC731E278AA24900D0A9BA /* ShadowScreenApp.swift in Sources */,
 				EA49AEFB298FF082007F34F1 /* ScreenCapture.swift in Sources */,

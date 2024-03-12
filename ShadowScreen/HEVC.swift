@@ -138,11 +138,13 @@ extension CMSampleBuffer {
         var decoded: CMSampleBuffer?
         CMSampleBufferCreateReady(allocator: nil, dataBuffer: dataBuffer, formatDescription: formatDescription, sampleCount: 1, sampleTimingEntryCount: 1, sampleTimingArray: &timing, sampleSizeEntryCount: 1, sampleSizeArray: [1], sampleBufferOut: &decoded)
 
-//        if let decoded {
-//            let attachments: CFArray = CMSampleBufferGetSampleAttachmentsArray(decoded, createIfNecessary: true)!
-//            let firstAttachments = unsafeBitCast(CFArrayGetValueAtIndex(attachments, 0), to: CFMutableDictionary.self)
-//            CFDictionarySetValue(firstAttachments, Unmanaged.passUnretained(kCMSampleAttachmentKey_DisplayImmediately).toOpaque(), Unmanaged.passUnretained(kCFBooleanTrue).toOpaque())
-//        }
+        if let decoded {
+            // visionOS clock may delay several seconds from ntp
+            // kCMSampleAttachmentKey_DisplayImmediately do the trick
+            let attachments: CFArray = CMSampleBufferGetSampleAttachmentsArray(decoded, createIfNecessary: true)!
+            let firstAttachments = unsafeBitCast(CFArrayGetValueAtIndex(attachments, 0), to: CFMutableDictionary.self)
+            CFDictionarySetValue(firstAttachments, Unmanaged.passUnretained(kCMSampleAttachmentKey_DisplayImmediately).toOpaque(), Unmanaged.passUnretained(kCFBooleanTrue).toOpaque())
+        }
 
         return decoded
     }
