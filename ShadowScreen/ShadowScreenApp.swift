@@ -171,8 +171,10 @@ struct ShadowScreenApp: App {
         WindowGroup {
             if let layer = model.sampleBufferDisplayLayer {
                 SampleBufferView(sampleBufferDisplayLayer: layer)
-                    .ornament(attachmentAnchor: .scene(.topLeading)) {
+                    .ornament(attachmentAnchor: .scene(.topLeading),
+                              contentAlignment: .bottomTrailing) {
                         Button("Kill") { exit(1) }
+                            .offset(z: -30)
                     }
             } else {
                 Text("Connect from the companion Mac app")
