@@ -176,28 +176,34 @@ struct ShadowScreenApp: App {
     var body: some Scene {
         WindowGroup {
             if let layer = model.sampleBufferDisplayLayer {
-                WindowSceneReader { windowScene, window in
+                WindowSceneReader { windowScene in
                     SampleBufferView(sampleBufferDisplayLayer: layer)
+                        .glassBackgroundEffect(in: .rect) // non round rect background
                         .ornament(attachmentAnchor: .scene(.topLeading), contentAlignment: .bottomTrailing) {
                             Button("Kill") { exit(1) }
                                 .offset(z: -30)
                         }
-                        .onChange(of: window) { updateWindowAspectRatio(windowScene: windowScene) }
-                        .onChange(of: model.videoSize) { updateWindowAspectRatio(windowScene: windowScene) }
+                        .onChange(of: windowScene) { windowScene.map(updateWindowAspectRatio(windowScene:)) }
+                        .onChange(of: model.videoSize) { windowScene.map(updateWindowAspectRatio(windowScene:)) }
                 }
             } else {
-                Text("Connect from the companion Mac app")
-                    .font(.largeTitle)
-                    .padding()
-                Text(model.peerAdvertiser.displayName)
-                    .font(.title)
-                    .padding()
+                VStack {
+                    Text("Connect from the companion Mac app")
+                        .font(.largeTitle)
+                        .padding()
+                    Text(model.peerAdvertiser.displayName)
+                        .font(.title)
+                        .padding()
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .glassBackgroundEffect() // round rect background
             }
         }
+        .windowStyle(.plain) // transparent background
     }
 
-    private func updateWindowAspectRatio(windowScene: () -> UIWindowScene?) {
-        guard let windowScene = windowScene(), let videoSize = model.videoSize else { return }
+    private func updateWindowAspectRatio(windowScene: UIWindowScene) {
+        guard let videoSize = model.videoSize else { return }
         // .uniform fixes aspect ratio to the current window size.
         // for example, set to 3840x2160 may fail due to large height for the space.
         // in the case above, .uniform fixes aspect to the failed result size.
